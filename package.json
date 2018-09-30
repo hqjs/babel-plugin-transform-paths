@@ -20,7 +20,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hqjs/babel-plugin-transform-paths.git"
+    "url": "git+https://github.com/hqjs/babel-plugin-transform-paths.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hqjs/babel-plugin-transform-paths/issues"
   },
   "publishConfig": {
     "access": "public"
