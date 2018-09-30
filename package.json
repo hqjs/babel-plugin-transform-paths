@@ -1,0 +1,26 @@
+{
+  "name": "@hq/babel-plugin-transform-paths",
+  "version": "0.0.1",
+  "description": "Transform global and local paths to full path with server URL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "babel",
+    "plugin",
+    "hq",
+    "paths"
+  ],
+  "homepage": "https://hqjs.org",
+  "author": "HQJS <hqjsorg@gmail.com>",
+  "engines": {
+    "npm": ">=6",
+    "node": ">=10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hqjs/babel-plugin-transform-paths.git"
+  },
+  "license": "MIT"
+}
