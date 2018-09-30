@@ -22,5 +22,8 @@
     "type": "git",
     "url": "https://github.com/hqjs/babel-plugin-transform-paths.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT"
 }
