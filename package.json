@@ -1,5 +1,5 @@
 {
-  "name": "@hq/babel-plugin-transform-paths",
+  "name": "@hqjs/babel-plugin-transform-paths",
   "version": "0.0.1",
   "description": "Transform global and local paths to full path with server URL",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "paths"
   ],
   "homepage": "https://hqjs.org",
-  "author": "HQJS <hqjsorg@gmail.com>",
+  "author": "hqjs <hqjsorg@gmail.com>",
   "engines": {
     "npm": ">=6",
     "node": ">=10"
