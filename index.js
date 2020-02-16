@@ -1,7 +1,9 @@
 const path = require('path');
 
+// TODO: check if we need to use global flags and accept spaces /^(\.{1,2})\/([^'"]*)/ migt be more relevant
 const RELATIVE_PATTERN = /\s*(\.{1,2})\/([^'"]*)/g;
-const ABSOLUTE_PATTERN = /\s*(\/node_modules)\/([^'"`]*)/g;
+const VENDOR_PATTERN = /\s*(\/node_modules)\/([^'"`]*)/g;
+const ABSOLUTE_PATTERN = /^(\s*)\/([^'"`]*)/g;
 const VUE_PATTER = /\s*(@)\/([^'"`]*)/g;
 
 const replace = (baseURI, dirname = '', dotsReplacement = undefined) =>
@@ -11,22 +13,26 @@ module.exports = function ({ types: t }) {
   return {
     visitor: {
       StringLiteral(nodePath, stats) {
-        const { baseURI, dirname } = stats.opts;
+        const { basePath = '', baseURI, dirname, removeNodeModules } = stats.opts;
         const { value: modName } = nodePath.node;
         if (modName.trim().startsWith('http')) return;
+        const uri = `${baseURI}${basePath}`;
         nodePath.node.value = modName
-          .replace(ABSOLUTE_PATTERN, replace(baseURI))
-          .replace(VUE_PATTER, replace(baseURI, '', '/'))
-          .replace(RELATIVE_PATTERN, replace(baseURI, dirname));
+          .replace(VENDOR_PATTERN, replace(baseURI, '', removeNodeModules ? '/' : undefined))
+          .replace(ABSOLUTE_PATTERN, replace(uri, '', '/'))
+          .replace(VUE_PATTER, replace(uri, '', '/'))
+          .replace(RELATIVE_PATTERN, replace(uri, dirname));
       },
       TemplateLiteral(nodePath, stats) {
-        const { baseURI, dirname } = stats.opts;
+        const { basePath = '', baseURI, dirname, removeNodeModules } = stats.opts;
+        const uri = `${baseURI}${basePath}`;
         const value = nodePath.node.quasis[0].value.raw;
         nodePath.node.quasis[0] = t.templateElement({
           raw: value
-            .replace(ABSOLUTE_PATTERN, replace(baseURI))
-            .replace(VUE_PATTER, replace(baseURI, '', '/'))
-            .replace(RELATIVE_PATTERN, replace(baseURI, dirname)),
+            .replace(VENDOR_PATTERN, replace(baseURI, '', removeNodeModules ? '/' : undefined))
+            .replace(ABSOLUTE_PATTERN, replace(uri, '', '/'))
+            .replace(VUE_PATTER, replace(uri, '', '/'))
+            .replace(RELATIVE_PATTERN, replace(uri, dirname)),
         });
       },
     },
