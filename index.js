@@ -13,27 +13,29 @@ module.exports = function ({ types: t }) {
   return {
     visitor: {
       StringLiteral(nodePath, stats) {
-        const { basePath = '', baseURI, dirname, removeNodeModules } = stats.opts;
+        const { basePath = '', baseURI, dirname, removeNodeModules, transformAbsolute } = stats.opts;
         const { value: modName } = nodePath.node;
         if (modName.trim().startsWith('http')) return;
         const uri = `${baseURI}${basePath}`;
-        nodePath.node.value = modName
+        let updatedPath = modName
           .replace(VENDOR_PATTERN, replace(baseURI, '', removeNodeModules ? '/' : undefined))
-          .replace(ABSOLUTE_PATTERN, replace(uri, '', '/'))
           .replace(VUE_PATTER, replace(uri, '', '/'))
           .replace(RELATIVE_PATTERN, replace(uri, dirname));
+
+        if (transformAbsolute) updatedPath = updatedPath.replace(ABSOLUTE_PATTERN, replace(uri, '', '/'));
+
+        nodePath.node.value = updatedPath;
       },
       TemplateLiteral(nodePath, stats) {
-        const { basePath = '', baseURI, dirname, removeNodeModules } = stats.opts;
+        const { basePath = '', baseURI, dirname, removeNodeModules, transformAbsolute } = stats.opts;
         const uri = `${baseURI}${basePath}`;
         const value = nodePath.node.quasis[0].value.raw;
-        nodePath.node.quasis[0] = t.templateElement({
-          raw: value
+        let raw = value
             .replace(VENDOR_PATTERN, replace(baseURI, '', removeNodeModules ? '/' : undefined))
-            .replace(ABSOLUTE_PATTERN, replace(uri, '', '/'))
             .replace(VUE_PATTER, replace(uri, '', '/'))
-            .replace(RELATIVE_PATTERN, replace(uri, dirname)),
-        });
+            .replace(RELATIVE_PATTERN, replace(uri, dirname));
+        if (transformAbsolute) raw = raw.replace(ABSOLUTE_PATTERN, replace(uri, '', '/'));
+        nodePath.node.quasis[0] = t.templateElement({raw});
       },
     },
   };
