@@ -1,10 +1,10 @@
 const path = require('path');
 
 // TODO: check if we need to use global flags and accept spaces /^(\.{1,2})\/([^'"]*)/ migt be more relevant
-const RELATIVE_PATTERN = /\s*(\.{1,2})\/([^'"]*)/g;
-const VENDOR_PATTERN = /\s*(\/node_modules)\/([^'"`]*)/g;
+const RELATIVE_PATTERN = /^\s*(\.{1,2})\/([^'"]*)/g;
+const VENDOR_PATTERN = /^\s*(\/node_modules)\/([^'"`]*)/g;
 const ABSOLUTE_PATTERN = /^(\s*)\/([^'"`]*)/g;
-const VUE_PATTER = /\s*(@)\/([^'"`]*)/g;
+const VUE_PATTER = /^\s*(@)\/([^'"`]*)/g;
 
 const replace = (baseURI, dirname = '', dotsReplacement = undefined) =>
   (match, dots, rest) => `${baseURI}${path.join(dirname, dotsReplacement === undefined ? dots : dotsReplacement, rest)}`;

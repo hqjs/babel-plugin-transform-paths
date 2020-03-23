@@ -1,4 +1,4 @@
-# http://hqjs.org
+# https://hqjs.org
 Transform global and local paths to full path with server URL
 
 # Installation
