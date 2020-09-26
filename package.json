@@ -1,6 +1,6 @@
 {
   "name": "@hqjs/babel-plugin-transform-paths",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Transform global and local paths to full path with server URL",
   "main": "index.js",
   "scripts": {
