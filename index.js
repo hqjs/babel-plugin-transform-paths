@@ -7,10 +7,7 @@ const ABSOLUTE_PATTERN = /^(\s*)\/([^'"`]*)/g;
 const VUE_PATTER = /^\s*(@)\/([^'"`]*)/g;
 
 const replace = (baseURI, dirname = '', dotsReplacement = undefined) =>
-  (match, dots, rest) => {
-    const res = `${baseURI}${path.join(dirname, dotsReplacement === undefined ? dots : dotsReplacement, rest)}`;
-    return path.sep === '\\' ? res.replace(/\\/g, '/') : res;
-  }
+  (match, dots, rest) => `${baseURI}${path.posix.join(dirname, dotsReplacement === undefined ? dots : dotsReplacement, rest)}`;
 
 module.exports = function ({ types: t }) {
   return {
