@@ -3,13 +3,13 @@ Transform global and local paths to full path with server URL
 
 # Installation
 ```sh
-npm install hqjs@babel-plugin-transform-paths
+npm install @hqjs/babel-plugin-transform-paths
 ```
 
 # Usage
 ```json
 {
-  "plugins": [["hqjs@babel-plugin-transform-paths", {
+  "plugins": [["@hqjs/babel-plugin-transform-paths", {
     "basePath": "",
     "baseURI": "http://localhost:8080",
     "dirname": "/path/to/module",
